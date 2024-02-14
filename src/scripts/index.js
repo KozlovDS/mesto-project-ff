@@ -1,33 +1,42 @@
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
+import { createCard, deleteCard, likeCard, openImage } from "./card.js";
+import { openPopup, handleFormAddSubmit, handleFormCreateSubmit } from "./popup.js";
 
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector("#card-template").content;
+//Кнопки открытия модальных окон
+const profileEditButton = document.querySelector(".profile__edit-button");
+const profileAddButton = document.querySelector(".profile__add-button");
+const cardsList = document.querySelector(".places__list");
 
-// @todo: DOM узлы
-const placesList = document.querySelector(".places__list");
+//Модальные окна
+const editPopup = document.querySelector(".popup_type_edit");
+const addCardPopup = document.querySelector(".popup_type_new-card");
 
-// @todo: Функция создания карточки
-function creatCard(cardDetails, deleteCard) {
-  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  cardImage.src = cardDetails.link;
-  cardImage.alt = cardDetails.name;
-  cardElement.querySelector(".card__title").textContent = cardDetails.name;
-
-  cardElement.querySelector(".card__delete-button").addEventListener("click", () => {
-    deleteCard(cardElement);
-  });
-
-  return cardElement;
-}
-
-// @todo: Функция удаления карточки
-const deleteCard = function (cardElement) {
-  cardElement.remove();
-};
+//Формы
+const profileEditForm = editPopup.querySelector(".popup__form");
+const newCardForm = addCardPopup.querySelector(".popup__form");
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach((item) => {
-  placesList.append(creatCard(item, deleteCard));
+  cardsList.append(createCard(item, deleteCard, likeCard, openImage));
 });
+
+//Отслеживание клика по редактированию профиля
+profileEditButton.addEventListener("click", () => {
+  openPopup(editPopup);
+  const profileTitle = document.querySelector(".profile__title");
+  const profileDescription = document.querySelector(".profile__description");
+  profileEditForm.name.value = profileTitle.textContent;
+  profileEditForm.description.value = profileDescription.textContent;
+});
+
+//Отслеживание клика по добавлению карточки
+profileAddButton.addEventListener("click", () => {
+  openPopup(addCardPopup);
+});
+
+//Отслеживание отправки формы редактирования профиля
+profileEditForm.addEventListener("submit", handleFormCreateSubmit);
+
+//Отслеживание отправки формы на добавление карточки
+newCardForm.addEventListener("submit", handleFormAddSubmit);
