@@ -1,4 +1,4 @@
-import { createCard, deleteCard, likeCard, openImage } from "./card";
+import { createCard, deleteCard, likeCard } from "./card";
 
 //Функция открытия модального окна
 export function openPopup(popup) {
@@ -8,8 +8,7 @@ export function openPopup(popup) {
 }
 
 //Функция закрытия модального окна
-export function closePopup() {
-  const activePopup = document.querySelector(".popup_is-opened");
+export function closePopup(activePopup) {
   activePopup.classList.remove("popup_is-opened");
   activePopup.removeEventListener("click", clickClosePopup);
   document.removeEventListener("keydown", escapeClosePopup);
@@ -18,36 +17,15 @@ export function closePopup() {
 //Закрытие окна при клике на крестик или оверлей
 function clickClosePopup(evt) {
   if (!evt.target.closest(".popup__content") || evt.target.classList.contains("popup__close")) {
-    closePopup();
+    const activePopup = document.querySelector(".popup_is-opened");
+    closePopup(activePopup);
   }
 }
 
 //Закрытие окна при нажатии клавиши Esc
 function escapeClosePopup(evt) {
   if (evt.key === "Escape") {
-    closePopup();
+    const activePopup = document.querySelector(".popup_is-opened");
+    closePopup(activePopup);
   }
-}
-
-//Функция редактирования профиля
-export function handleFormCreateSubmit(evt) {
-  evt.preventDefault();
-  const profileTitle = document.querySelector(".profile__title");
-  const profileDescription = document.querySelector(".profile__description");
-  profileTitle.textContent = evt.target.name.value;
-  profileDescription.textContent = evt.target.description.value;
-  closePopup();
-}
-
-//Функция добавления карточки через форму
-export function handleFormAddSubmit(evt) {
-  evt.preventDefault();
-  const cardInfo = {
-    name: evt.target["place-name"].value,
-    link: evt.target.link.value,
-  };
-  document.querySelector(".places__list").prepend(createCard(cardInfo, deleteCard, likeCard, openImage));
-  evt.target["place-name"].value = "";
-  evt.target.link.value = "";
-  closePopup();
 }
