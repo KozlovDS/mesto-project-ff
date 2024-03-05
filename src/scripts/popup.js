@@ -1,16 +1,14 @@
-import { createCard, deleteCard, likeCard } from "./card";
-
 //Функция открытия модального окна
 export function openPopup(popup) {
   popup.classList.add("popup_is-opened");
-  popup.addEventListener("click", clickClosePopup);
+  popup.addEventListener("mousedown", clickClosePopup);
   document.addEventListener("keydown", escapeClosePopup);
 }
 
 //Функция закрытия модального окна
 export function closePopup(activePopup) {
   activePopup.classList.remove("popup_is-opened");
-  activePopup.removeEventListener("click", clickClosePopup);
+  activePopup.removeEventListener("mousedown", clickClosePopup);
   document.removeEventListener("keydown", escapeClosePopup);
 }
 

@@ -2,6 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { createCard, deleteCard, likeCard } from "./card.js";
 import { openPopup, closePopup } from "./popup.js";
+import { enableValidation, clearValidation } from "./validation.js";
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -21,6 +22,17 @@ const popupCaption = popupImage.querySelector(".popup__caption");
 //Формы
 const profileEditForm = popupEditProfile.querySelector(".popup__form");
 const newCardForm = popupAddCard.querySelector(".popup__form");
+
+//Настройки валидации
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  inputErrorClassActive: "popup__input-error_active",
+  errorClass: "popup__error_visible",
+};
 
 // Вывести карточки на страницу
 initialCards.forEach((item) => {
@@ -59,10 +71,12 @@ function handleFormAddSubmit(evt) {
   cardsList.prepend(createCard(cardInfo, cardTemplate, deleteCard, likeCard, openImage));
   evt.target.closest("form").reset();
   closePopup(evt.target.closest(".popup"));
+  clearValidation(newCardForm, validationConfig);
 }
 
 //Отслеживание клика по редактированию профиля
 profileEditButton.addEventListener("click", () => {
+  clearValidation(profileEditForm, validationConfig);
   openPopup(popupEditProfile);
   profileEditForm.name.value = profileTitle.textContent;
   profileEditForm.description.value = profileDescription.textContent;
@@ -78,3 +92,7 @@ profileEditForm.addEventListener("submit", handleFormCreateSubmit);
 
 //Отслеживание отправки формы на добавление карточки
 newCardForm.addEventListener("submit", handleFormAddSubmit);
+
+//Валидация форм
+
+enableValidation(validationConfig);
