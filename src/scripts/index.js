@@ -3,6 +3,7 @@ import { initialCards } from "./cards.js";
 import { createCard, deleteCard, likeCard } from "./card.js";
 import { openPopup, closePopup } from "./popup.js";
 import { enableValidation, clearValidation } from "./validation.js";
+import { getProfileData } from "./api.js";
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -10,6 +11,7 @@ const cardsList = document.querySelector(".places__list");
 const cardTemplate = document.querySelector("#card-template").content;
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const profileImage = document.querySelector(".profile__image-img");
 
 //Модальные окна
 const popupEditProfile = document.querySelector(".popup_type_edit");
@@ -38,6 +40,18 @@ const validationConfig = {
 initialCards.forEach((item) => {
   cardsList.append(createCard(item, cardTemplate, deleteCard, likeCard, openImage));
 });
+
+//Вывод информации о пользователе
+getProfileData()
+  .then((data) => {
+    profileTitle.textContent = data.name;
+    profileDescription.textContent = data.about;
+    profileImage.alt = data.name;
+    profileImage.src = data.avatar;
+  })
+  .catch((err) => {
+    alert(err); // выводим ошибку
+  });
 
 //Функция открытия изображения
 function openImage(evt) {
