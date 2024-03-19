@@ -61,9 +61,11 @@ export function enableValidation(validationConfig) {
 }
 
 export function clearValidation(formElement, validationConfig) {
-  const inputElement = formElement.querySelector(validationConfig.inputSelector);
+  const inputElements = formElement.querySelectorAll(validationConfig.inputSelector);
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-  hideInputError(formElement, inputElement, validationConfig);
+  inputElements.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, validationConfig);
+  });
   buttonElement.disabled = true;
   buttonElement.classList.add(validationConfig.inactiveButtonClass);
 }

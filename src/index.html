@@ -11,7 +11,7 @@
 <body class="page">
   <div class="page__content">
     <header class="header page__section">
-      <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта масто" class="logo header__logo">
+      <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта место" class="logo header__logo">
     </header>
     <main class="content">
       <section class="profile page__section">
@@ -85,18 +85,25 @@
         <button type="submit" class="button popup__button popup__button_confirm">Да</button>
       </div>
     </div>
-  </div>
-  <div class="popup popup_type_change_avatar">
-    <div class="popup__content">
-      <button type="button" class="popup__close"></button>
-      <h3 class="popup__title">Обновить аватар</h3>
-      <form class="popup__form" name="change-avatar" novalidate>
-        <label class="form__field">
-          <input type="url" id="link-input" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
-          <span class="link-input-error popup__input-error"></span>
-        </label>
-        <button type="submit" class="button popup__button">Сохранить</button>
-      </form>
+    <div class="popup popup_type_change_avatar">
+      <div class="popup__content">
+        <button type="button" class="popup__close"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form" name="change-avatar" novalidate>
+          <label class="form__field">
+            <input type="url" id="link-input" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+            <span class="link-input-error popup__input-error"></span>
+          </label>
+          <button type="submit" class="button popup__button">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_error">
+      <div class="popup__content popup__content_content_errore">
+        <button type="button" class="popup__close"></button>
+        <h3 class="popup__title"></h3>
+        <button type="submit" class="button popup__button popup__button_error">Ок</button>
+      </div>
     </div>
   </div>
   <template id="card-template">

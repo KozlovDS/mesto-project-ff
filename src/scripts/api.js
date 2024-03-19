@@ -6,24 +6,25 @@ const config = {
   },
 };
 
+async function getResponseData(res, textMessage) {
+  if (!res.ok) {
+    return await Promise.reject(`Ошибка: ${res.status}. ${textMessage}`);
+  }
+  return await res.json();
+}
+
 export async function getProfileData() {
   const res = await fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось получить данные о пользователе`);
+  return getResponseData(res, "Не удалось получить данные о пользователе");
 }
 
 export async function getCards() {
   const res = await fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось получить карточки`);
+  return getResponseData(res, "Не удалось получить карточки");
 }
 
 export async function setProfile(name, about) {
@@ -35,10 +36,7 @@ export async function setProfile(name, about) {
       about: about,
     }),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось обновить информацию о пользователе`);
+  return getResponseData(res, "Не удалось обновить информацию о пользователе");
 }
 
 export async function setCard(name, link) {
@@ -50,10 +48,7 @@ export async function setCard(name, link) {
       link: link,
     }),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось добавить карточку`);
+  return getResponseData(res, "Не удалось добавить карточку");
 }
 
 export async function removeCard(cardId) {
@@ -61,10 +56,7 @@ export async function removeCard(cardId) {
     method: "DELETE",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось удалить карточку`);
+  return getResponseData(res, "Не удалось удалить карточку");
 }
 
 export async function addLikeCard(cardId) {
@@ -72,10 +64,7 @@ export async function addLikeCard(cardId) {
     method: "PUT",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось лайкнуть карточку`);
+  return getResponseData(res, "Не удалось лайкнуть карточку");
 }
 
 export async function deleteLikeCard(cardId) {
@@ -83,10 +72,7 @@ export async function deleteLikeCard(cardId) {
     method: "DELETE",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось удалить карточку`);
+  return getResponseData(res, "Не удалось удалить карточку");
 }
 
 export async function changeAvatar(link) {
@@ -97,8 +83,5 @@ export async function changeAvatar(link) {
       avatar: link,
     }),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}. Не удалось обновить аватар`);
+  return getResponseData(res, "Не удалось обновить аватар");
 }
